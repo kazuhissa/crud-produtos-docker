@@ -1,3 +1,4 @@
+
 # Define os serviços que fazem parte da aplicação.
 services:
 
@@ -79,6 +80,38 @@ services:
 
       # Permite que o serviço app encontre o banco através do nome "db".
       - crud-rede
+
+
+  # Serviço auxiliar com Ubuntu Server para estudos e testes.
+  ubuntu:
+
+    # Utiliza a imagem oficial do Ubuntu 24.04 LTS.
+    image: ubuntu:24.04
+
+    # Define um nome fixo para o container do Ubuntu.
+    container_name: crud-produtos-ubuntu
+
+    # Define o hostname do Ubuntu.
+    hostname: ubuntu-server
+
+    # Mantém o terminal aberto para interação.
+    tty: true
+    stdin_open: true
+
+    # Instala ferramentas básicas ao iniciar o container.
+    command: >
+      bash -c "apt-get update &&
+      apt-get install -y curl wget nano iputils-ping iproute2 &&
+      exec bash"
+
+    # Conecta o Ubuntu à rede personalizada do projeto.
+    networks:
+
+      # Permite que o Ubuntu se comunique com os outros containers.
+      - crud-rede
+
+    # Reinicia o container quando necessário.
+    restart: unless-stopped
 
 
 # Define as redes utilizadas pelos containers.
