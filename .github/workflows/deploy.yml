@@ -2,18 +2,20 @@ name: CI/CD Docker PHP
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     runs-on: self-hosted
-
     steps:
-      - name: Obter código do repositório
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Verificar estado dos contentores Docker
+      - name: Restart Docker Compose
         run: |
           docker compose down
           docker compose up -d --build
-          docker ps
