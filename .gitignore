@@ -1,0 +1,7 @@
+actions-runner/
+*.tar.gz
+.runner
+.credentials*
+.service
+.path
+.env

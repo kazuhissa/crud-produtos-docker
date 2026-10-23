@@ -1,0 +1,19 @@
+name: CI/CD Docker PHP
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Obter código do repositório
+        uses: actions/checkout@v4
+
+      - name: Verificar estado dos contentores Docker
+        run: |
+          docker compose down
+          docker compose up -d --build
+          docker ps
